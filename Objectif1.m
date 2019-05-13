@@ -127,7 +127,6 @@ y_CRRC_bruit_filt = y_CRRC_bruit_filt(Ns_CRRC*Ts+1:end);
 %%%%%%%%%%%%%%%%%%%%%%
 %        CRRC        %
 %%%%%%%%%%%%%%%%%%%%%%
-
 y_CRRC_bruit_filt_ech = y_CRRC_bruit_filt(1:Ts:end);
 %%
 
@@ -141,13 +140,6 @@ y_CRRC_bruit_filt_ech = y_CRRC_bruit_filt(1:Ts:end);
 %%%%%%%%%%%%%%%%%%%%%%
 %        CRRC        %
 %%%%%%%%%%%%%%%%%%%%%%
-y_CRRC_recu = y_CRRC_bruit_filt_ech > 0;
-
-%TEB
-TEB_CRRC = length(find(abs(bits_CRRC - y_CRRC_recu))) / length(bits_CRRC)
-
-
-
 %%% Tracé TEB simulé %%%
 TEB_CRRC =[];
 
@@ -185,3 +177,5 @@ title("TEB theorique VS TEB simulé signal CRRC");
 legend("TEB simulé", "TEB théorique");
 ylabel("TEB");
 xlabel("Eb/N0 (dB)");
+
+
