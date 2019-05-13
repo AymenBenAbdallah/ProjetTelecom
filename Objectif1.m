@@ -5,7 +5,7 @@ close all;
 Ts = 4;
 nb_bits = 30000;
 Ns_NRZ= 5;
-Te = Ts/Ns;
+Te_NRZ = Ts/Ns_NRZ;
 Eb_N0 = 0:0.2:6;
 rolloff = 0.35;
 
@@ -13,7 +13,7 @@ rolloff = 0.35;
 
 
 %% Génération de l'information binaire à transmettre
-
+bits = randi([0,1],1,nb_bits);
 
 
 
