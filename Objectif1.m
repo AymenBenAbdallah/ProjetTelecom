@@ -29,7 +29,7 @@ bits_CRRC = randi([0,1],1,nb_bits);
 %%%%%%%%%%%%%%%%%%%%%%
 %       NRZ          %
 %%%%%%%%%%%%%%%%%%%%%%
-
+map_NRZ = 2*bits_NRZ-1;
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -41,7 +41,7 @@ bits_CRRC = randi([0,1],1,nb_bits);
 %%%%%%%%%%%%%%%%%%%%%%
 %       NRZ          %
 %%%%%%%%%%%%%%%%%%%%%%
-
+signal_NRZ = kron(map_NRZ,ones(1,Ns_NRZ));
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -54,7 +54,7 @@ bits_CRRC = randi([0,1],1,nb_bits);
 %%%%%%%%%%%%%%%%%%%%%%
 %       NRZ          %
 %%%%%%%%%%%%%%%%%%%%%%
-
+signal_filtre_NRZ = filter(ones(1,Ts),1,signal_NRZ);
 
 
 %%%%%%%%%%%%%%%%%%%%%%
