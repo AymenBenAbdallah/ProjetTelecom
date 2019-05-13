@@ -13,7 +13,16 @@ rolloff = 0.35;
 
 
 %% Génération de l'information binaire à transmettre
-bits = randi([0,1],1,nb_bits);
+%%%%%%%%%%%%%%%%%%%%%%
+%       NRZ          %
+%%%%%%%%%%%%%%%%%%%%%%
+bits_NRZ = randi([0,1],1,nb_bits);
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%        CRRC        %
+%%%%%%%%%%%%%%%%%%%%%%
+bits_CRRC = randi([0,1],1,nb_bits);
 
 
 
