@@ -1,9 +1,6 @@
 clear;
 close all;
 
-
-%%CODAGE
-
 %Lecture image (RVB)
 image = imread('baboon.png');
 %En noir et blanc
@@ -23,7 +20,7 @@ q = [ 16 11 10 16 24 40 51 61;
      72 92 95 98 112 100 103 99];
 
 %Affiche image
-figure(1);
+figure;
 imshow(image);
 
 % %Transformation image en un flux binaire
@@ -54,12 +51,4 @@ imageRLE = rle(imageDCT);
 
 %Huffman
 
-matProb = cell2mat(imageRLE(2));
-matProb(end) = row*col - sum(matProb(1:1:end-1));    %Gitan
-%matProb(end) = abs(matProb(end));    %Gitan
-prob = matProb./sum(matProb);
-
-matSymb = cell2mat(imageRLE(1));
-dict = huffmandict(matSymb,prob);
-huffMsg = huffmanenco(matSymb,dict);
-
+prob = cellimageRLE(2);
