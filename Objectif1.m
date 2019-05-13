@@ -3,7 +3,7 @@ close all;
 
 % Durée symbole
 Ts = 4;
-nb_bits = 30000;
+nb_bits = 10000;
 Ns_NRZ= 5;
 Te_NRZ = Ts/Ns_NRZ;
 Eb_N0 = 0:0.2:6;
@@ -71,7 +71,7 @@ signal_filtre_NRZ = filter(h_NRZ,1,signal_NRZ);
 %%%%%%%%%%%%%%%%%%%%%%
 %réponse impulsionnelle 
 
-h_CRRC = rcosdesign(rolloff,NS_CRRC,Ts,'sqrt');
+h_CRRC = rcosdesign(rolloff,Ns_CRRC,Ts,'sqrt');
 
 %filtrage de mise en forme
 y_CRRC = filter(h_CRRC,1,Suite_diracs_CRRC);
@@ -86,7 +86,7 @@ var_symbole_NRZ = var(
 %        CRRC        %
 %%%%%%%%%%%%%%%%%%%%%%
 var_symboles = var(Symboles_CRRC);
-p = 10^(Eb_N0(length(Eb_N0)/2)/10);
+p = 10^(Eb_N0(floor(length(Eb_N0)/2))/10);
 var_bruit_carre = var_symboles * sum(abs(h_CRRC).^2) ./ (2 * log2(M) * p); 
 bruit = sqrt(var_bruit_carre) * randn(1, length(y_CRRC));
 
@@ -104,6 +104,13 @@ y_CRRC_bruit = y_CRRC + bruit;
 %%%%%%%%%%%%%%%%%%%%%%
 %        CRRC        %
 %%%%%%%%%%%%%%%%%%%%%%
+%Filtrage de réception du signal sans bruit
+h_CRRC_adapte = conj(fliplr(h_CRRC));
+y_CRRC = filter(h_CRRC_adapte, 1, y_CRRC);
+y_CRRC = y_CRRC(Ns_CRRC*Ts+1:end);
+%Diagramme de l'oeil
+eyediagram(y_CRRC,2*Ts,2*Ts);
+title("Diagramme de l'oeil du signal SRRCF");
 
 
 
