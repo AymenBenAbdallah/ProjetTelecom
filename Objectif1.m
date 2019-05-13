@@ -11,7 +11,6 @@ rolloff = 0.35;
 
 
 
-
 %% Génération de l'information binaire à transmettre
 %%%%%%%%%%%%%%%%%%%%%%
 %       NRZ          %
