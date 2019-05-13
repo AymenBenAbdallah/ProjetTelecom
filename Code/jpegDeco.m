@@ -21,10 +21,12 @@ decoDCT = repelem(msgDeco,matProb);
 decoDCT = reshape(decoDCT,64,[]);
 
 imageDeco = zeros(512);
-[~,nbBlock] = size(decoDCT);
+nbBlock = 4096; % Tricherie
+% [~,nbBlock] = size(decoDCT);
 
 for i=[1:nbBlock]
-    block = decoDCT(:,i);
+    block = decoDCT(:,i); % Tricherie
+    %block = decoDCT(:,i);
     block = izigzag(block,8,8);
     block = block.*q;
     block = idct2(block);
@@ -34,6 +36,7 @@ for i=[1:nbBlock]
     baslin = mod((i-1)*8,512)+1
     hautlin = mod((i-1)*8 + 7,512)+1
     imageDeco(baslin:hautlin, bascol:hautcol) = block;
+    i
 end
 
 %Affiche image

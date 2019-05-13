@@ -30,7 +30,8 @@ imshow(image);
 % y=de2bi(image);
 % binImgPng = reshape(y.',1,size(y,1)*size(y,2));
 
-imageDCT = zeros(8*8,row/8*col/8);
+%imageDCT = zeros(8*8,row/8*col/8);
+imageDCT = [];
 
 %Compression en JPEG
 %Lis de bas en haut, de gauche a droite
@@ -41,25 +42,28 @@ for i1=[1:8:row]
         %DCT
         block = dct2(block);
         %Quantification qualitee 50
-        block = round(block./q);
+        block = round(block./q)
         %Lecture en zigzag
         block = zigzag(block);
-        imageDCT(:,8*(((i1+7)/8)-1)+(i2+7)/8) = block;
+        %Pb a 568
+        imageDCT = [imageDCT;block];
+        %imageDCT(:,8*(((i1+7)/8)-1)+(i2+7)/8) = block;
     end
 end
 
 %RLE
 
-imageRLE = rle(imageDCT);
+imageDCT2 = imageDCT(:);
+imageRLE = rle(imageDCT2);
 
 %Huffman
 
-matProb = cell2mat(imageRLE(2));
-matProb(end) = row*col - sum(matProb(1:1:end-1));    %Gitan
+matProb = imageRLE(2:2:end);
+%matProb(end) = row*col - sum(matProb(1:1:end-1));    %Gitan
 %matProb(end) = abs(matProb(end));    %Gitan
 prob = matProb./sum(matProb);
 
-matSymb = cell2mat(imageRLE(1));
+matSymb = imageRLE(1:2:end);
 dict = huffmandict(matSymb,prob);
 huffMsg = huffmanenco(matSymb,dict);
 
