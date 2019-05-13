@@ -9,6 +9,7 @@ Te_NRZ = Ts/Ns_NRZ;
 Eb_N0 = 0:0.2:6;
 rolloff = 0.35;
 Ns_CRRC =4;
+M=2;
 
 
 %% Génération de l'information binaire à transmettre
@@ -58,7 +59,11 @@ Suite_diracs_CRRC = kron(Symboles_CRRC, [1 zeros(1,Ts-1)]);
 %%%%%%%%%%%%%%%%%%%%%%
 %       NRZ          %
 %%%%%%%%%%%%%%%%%%%%%%
-signal_filtre_NRZ = filter(ones(1,Ts),1,signal_NRZ);
+%réponse impulsionnelle
+h_NRZ = ones(1,Ts);
+
+%filtrage de mise en forme
+signal_filtre_NRZ = filter(h_NRZ,1,signal_NRZ);
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -74,13 +79,12 @@ y_CRRC = filter(h_CRRC,1,Suite_diracs_CRRC);
 %%%%%%%%%%%%%%%%%%%%%%
 %       NRZ          %
 %%%%%%%%%%%%%%%%%%%%%%
-
+var_symbole_NRZ = var(
 
 
 %%%%%%%%%%%%%%%%%%%%%%
 %        CRRC        %
 %%%%%%%%%%%%%%%%%%%%%%
-M=2;
 var_symboles = var(Symboles_CRRC);
 p = 10^(Eb_N0(length(Eb_N0)/2)/10);
 var_bruit_carre = var_symboles * sum(abs(h_CRRC).^2) ./ (2 * log2(M) * p); 
