@@ -42,19 +42,19 @@ for i1=[1:8:row]
         %DCT
         block = dct2(block);
         %Quantification qualitee 50
-        block = round(block./q)
+        block = round(block./q);
         %Lecture en zigzag
         block = zigzag(block);
         %Pb a 568
         imageDCT = [imageDCT;block];
-        %imageDCT(:,8*(((i1+7)/8)-1)+(i2+7)/8) = block;
     end
 end
 
+imageDCT = transpose(imageDCT);
+
 %RLE
 
-imageDCT2 = imageDCT(:);
-imageRLE = rle(imageDCT2);
+imageRLE = rle(imageDCT);
 
 %Huffman
 

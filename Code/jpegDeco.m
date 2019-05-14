@@ -25,18 +25,17 @@ nbBlock = 4096; % Tricherie
 % [~,nbBlock] = size(decoDCT);
 
 for i=[1:nbBlock]
-    block = decoDCT(:,i); % Tricherie
+    block = imageDCT(:,i); % Tricherie
     %block = decoDCT(:,i);
     block = izigzag(block,8,8);
     block = block.*q;
     block = idct2(block);
     j = (floor((i-1)*8/512)+1);
-    bascol = mod((j-1)*8,512)+1
-    hautcol = mod((j-1)*8 + 7,512)+1
-    baslin = mod((i-1)*8,512)+1
-    hautlin = mod((i-1)*8 + 7,512)+1
+    bascol = mod((i-1)*8,512)+1;
+    hautcol = mod((i-1)*8 + 7,512)+1;
+    baslin = mod((j-1)*8,512)+1;
+    hautlin = mod((j-1)*8 + 7,512)+1;
     imageDeco(baslin:hautlin, bascol:hautcol) = block;
-    i
 end
 
 %Affiche image
