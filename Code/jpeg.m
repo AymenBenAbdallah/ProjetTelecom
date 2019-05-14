@@ -5,7 +5,7 @@ close all;
 %%CODAGE
 
 %Lecture image (RVB)
-image = imread('baboon.png');
+image = imread('raptorJesus.png');
 %En noir et blanc
 image = rgb2gray(image);
 
@@ -51,19 +51,16 @@ for i1=[1:8:row]
 end
 
 imageDCT = transpose(imageDCT);
+imageDCT2 = imageDCT(:);
 
 %RLE
 
-imageRLE = rle(imageDCT);
+imageRLE = rle(imageDCT2);
+testo = sum(imageRLE==imageRLE');
 
 %Huffman
 
-matProb = imageRLE(2:2:end);
-%matProb(end) = row*col - sum(matProb(1:1:end-1));    %Gitan
-%matProb(end) = abs(matProb(end));    %Gitan
-prob = matProb./sum(matProb);
+prob = testo./sum(testo);
 
-matSymb = imageRLE(1:2:end);
-dict = huffmandict(matSymb,prob);
-huffMsg = huffmanenco(matSymb,dict);
-
+dict = huffmandict(imageRLE,prob);
+huffMsg = huffmanenco(imageRLE,dict);

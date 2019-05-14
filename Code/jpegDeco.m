@@ -11,35 +11,43 @@ q = [ 16 11 10 16 24 40 51 61;
      49 64 78 87 103 121 120 101;
      72 92 95 98 112 100 103 99];
 
-%On receptionne huffMsg et matProb et dict
+%On receptionne huffMsg et matRepet et dict
 
 %Decoder image huffman
-msgDeco = huffmandeco(huffMsg,dict); 
+tripleDeco = huffmandeco(huffMsg,dict);
+msgDeco = tripleDeco(1:2:end);
+matRepet = tripleDeco(2:2:end);
 %Retrouver imageDCT en vecteur
-decoDCT = repelem(msgDeco,matProb);
+decoDCT = repelem(msgDeco,matRepet);
 %Remttre le DCT dans la bonne forme
 decoDCT = reshape(decoDCT,64,[]);
 
-imageDeco = zeros(512);
-nbBlock = 4096; % Tricherie
-% [~,nbBlock] = size(decoDCT);
+tailleDeco = size(decoDCT);
+tailleImg = floor(sqrt(tailleDeco(1)*tailleDeco(2)));
+
+imageDeco = zeros(tailleImg);
+nbBlock = tailleDeco(2);
 
 for i=[1:nbBlock]
-    block = imageDCT(:,i); % Tricherie
-    %block = decoDCT(:,i);
+    %Ouvre un block
+    block = decoDCT(:,i);
+    %zigzag inverse
     block = izigzag(block,8,8);
+    %Quantification inverse
     block = block.*q;
+    %DCT inverse
     block = idct2(block);
-    j = (floor((i-1)*8/512)+1);
-    bascol = mod((i-1)*8,512)+1;
-    hautcol = mod((i-1)*8 + 7,512)+1;
-    baslin = mod((j-1)*8,512)+1;
-    hautlin = mod((j-1)*8 + 7,512)+1;
+    %Calcul de la bonne position du block
+    j = (floor((i-1)*8/tailleImg)+1);
+    bascol = mod((i-1)*8,tailleImg)+1;
+    hautcol = mod((i-1)*8 + 7,tailleImg)+1;
+    baslin = mod((j-1)*8,tailleImg)+1;
+    hautlin = mod((j-1)*8 + 7,tailleImg)+1;
+    %Mise en position du block
     imageDeco(baslin:hautlin, bascol:hautcol) = block;
 end
 
 %Affiche image
-
 imageDeco = mat2gray(imageDeco);
 
 figure(2);
