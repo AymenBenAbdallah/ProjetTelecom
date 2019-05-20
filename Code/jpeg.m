@@ -5,7 +5,7 @@ close all;
 %%CODAGE
 
 %Lecture image (RVB)
-image = imread('raptorJesus.png');
+image = imread('baboon.png');
 %En noir et blanc
 image = rgb2gray(image);
 
@@ -56,11 +56,11 @@ imageDCT2 = imageDCT(:);
 %RLE
 
 imageRLE = rle(imageDCT2);
-testo = sum(imageRLE==imageRLE');
 
 %Huffman
 
-prob = testo./sum(testo);
+[nbVal, ~] = hist(imageRLE, unique(imageRLE));
+prob = nbVal./length(imageRLE);
 
-dict = huffmandict(imageRLE,prob);
+dict = huffmandict(val,prob);
 huffMsg = huffmanenco(imageRLE,dict);
