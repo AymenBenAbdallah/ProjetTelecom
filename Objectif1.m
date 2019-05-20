@@ -130,20 +130,6 @@ title("Diagramme de l'oeil du signal SRRCF");
 %Filtrage de reception du signal avec bruit
 y_CRRC_bruit_filt = filter(h_CRRC_adapte, 1, y_CRRC_bruit);
 y_CRRC_bruit_filt = y_CRRC_bruit_filt(Ns_CRRC*Ts+1:end);
-
-%%Echantillonage
-%%%%%%%%%%%%%%%%%%%%%%
-%       NRZ          %
-%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%
-%        CRRC        %
-%%%%%%%%%%%%%%%%%%%%%%
-y_CRRC_bruit_filt_ech = y_CRRC_bruit_filt(1:Ts:end);
-%%
-
 %% Calcul du TEB
 %%%%%%%%%%%%%%%%%%%%%%
 %       NRZ          %
@@ -192,4 +178,4 @@ legend("TEB simulé", "TEB théorique");
 ylabel("TEB");
 xlabel("Eb/N0 (dB)");
 
-
+%% Passe-bas équivalent
