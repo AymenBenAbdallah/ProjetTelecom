@@ -3,7 +3,6 @@ close all;
 
 %%VARIABLES
 
-%Afficher ou non les images après DCT/Quantification
 bPlot = true;
 
 %%CODAGE
@@ -29,7 +28,6 @@ q = [ 16 11 10 16 24 40 51 61;
 %Affiche image
 figure(1);
 imshow(image);
-title("Image Originale");
 
 %imageDCT
 imageDCT = [];
@@ -63,11 +61,11 @@ end
 
 if bPlot
     figure(3);
-    imshow(previewDCT);
-    title("Image après DCT par bloc");
+    imshow(mpreviewDCT));
+    title("Image DCT");
     figure(4);
-    imshow(previewQuantif);
-    title("Image après quantification par bloc");
+    imshow(mat2gray(previewQuantif));
+    title("Image Quantifiée");
 end
 
 imageDCT = transpose(imageDCT);

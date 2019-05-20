@@ -52,3 +52,4 @@ imageDeco = mat2gray(imageDeco);
 
 figure(2);
 imshow(imageDeco);
+title("Image JPEG");
