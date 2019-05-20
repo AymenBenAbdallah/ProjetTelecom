@@ -59,7 +59,7 @@ imageRLE = rle(imageDCT2);
 
 %Huffman
 
-[nbVal, ~] = hist(imageRLE, unique(imageRLE));
+[nbVal, val] = hist(imageRLE, unique(imageRLE));
 prob = nbVal./length(imageRLE);
 
 dict = huffmandict(val,prob);
