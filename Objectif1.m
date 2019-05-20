@@ -79,7 +79,8 @@ y_CRRC = filter(h_CRRC,1,Suite_diracs_CRRC);
 %%%%%%%%%%%%%%%%%%%%%%
 %       NRZ          %
 %%%%%%%%%%%%%%%%%%%%%%
-var_symbole_NRZ = var(
+var_symbole_NRZ = var(map_NRZ);
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%
