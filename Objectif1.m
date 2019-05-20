@@ -4,12 +4,12 @@ close all;
 % Durée symbole
 Ts = 4;
 nb_bits = 10000;
-Ns_NRZ= 5;
+Ns_NRZ = 5;
 Te_NRZ = Ts/Ns_NRZ;
 Eb_N0 = 0:0.2:6;
 rolloff = 0.35;
-Ns_CRRC =4;
-M=2;
+Ns_CRRC = 4;
+M = 2;
 
 
 %% Génération de l'information binaire à transmettre
@@ -17,7 +17,6 @@ M=2;
 %       NRZ          %
 %%%%%%%%%%%%%%%%%%%%%%
 bits_NRZ = randi([0,1],1,nb_bits);
-
 
 %%%%%%%%%%%%%%%%%%%%%%
 %        CRRC        %
@@ -45,7 +44,7 @@ Symboles_CRRC = 2*bits_CRRC-1;
 %%%%%%%%%%%%%%%%%%%%%%
 %       NRZ          %
 %%%%%%%%%%%%%%%%%%%%%%
-signal_NRZ = kron(map_NRZ,ones(1,Ns_NRZ));
+signal_NRZ = kron(map_NRZ,[1 zeros(1,Ts-1)]);
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -63,7 +62,7 @@ Suite_diracs_CRRC = [Suite_diracs_CRRC,zeros(1,Ns_CRRC*Ts)]; %ajout de zeros à 
 h_NRZ = ones(1,Ts);
 
 %filtrage de mise en forme
-signal_filtre_NRZ = filter(h_NRZ,1,signal_NRZ);
+y_NRZ = filter(h_NRZ,1,signal_NRZ);
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -80,10 +79,12 @@ y_CRRC = filter(h_CRRC,1,Suite_diracs_CRRC);
 %       NRZ          %
 %%%%%%%%%%%%%%%%%%%%%%
 var_symbole_NRZ = var(map_NRZ);
-<<<<<<< HEAD
+puissance = 10^(Eb_N0(floor(length(Eb_N0)/2))/10);
+var_bc_NRZ = var_symbole_NRZ * sum(abs(h_NRZ).^2) ...
+    ./ (2*log(M) * puissance);
+bruit_NRZ = sqrt(var_bc_NRZ) * randn(1, length(y_NRZ));
+y_bruit_NRZ = y_NRZ + bruit_NRZ;
 
-=======
->>>>>>> 0d680f00415cadbd98668a53f35909ebe7814c9e
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -102,6 +103,15 @@ y_CRRC_bruit = y_CRRC + bruit;
 %%%%%%%%%%%%%%%%%%%%%%
 %       NRZ          %
 %%%%%%%%%%%%%%%%%%%%%%
+% Filtrage de recptiondu signal sans bruit
+h_NRZ_adapte = h_NRZ;
+y_NRZ_filtre = filter(h_NRZ_adapte,1,y_NRZ);
+y_NRZ_filtre = y_NRZ_filtre(Ts:end);
+% Diagramme de l'oeil
+eyediagram(y_NRZ_filtre,2*Ts,2*Ts);
+title("Diagramme de l'oeil du signal NRZ");
+
+% on choisit t0 = Ts
 
 
 
