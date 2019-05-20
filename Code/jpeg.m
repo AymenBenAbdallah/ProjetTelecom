@@ -56,7 +56,7 @@ for i1=[1:8:row]
         end
         %Lecture en zigzag
         block = zigzag(block);
-        %Pb a 568
+        %Construction de imageDCT
         imageDCT = [imageDCT;block];
     end
 end
