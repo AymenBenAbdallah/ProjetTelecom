@@ -103,7 +103,7 @@ y_CRRC_bruit = y_CRRC + bruit;
 %%%%%%%%%%%%%%%%%%%%%%
 %       NRZ          %
 %%%%%%%%%%%%%%%%%%%%%%
-% Filtrage de recptiondu signal sans bruit
+% Filtrage de recption du signal sans bruit
 h_NRZ_adapte = h_NRZ;
 y_NRZ_filtre = filter(h_NRZ_adapte,1,y_NRZ);
 y_NRZ_filtre = y_NRZ_filtre(Ts:end);
@@ -112,7 +112,8 @@ eyediagram(y_NRZ_filtre,2*Ts,2*Ts);
 title("Diagramme de l'oeil du signal NRZ");
 
 % on choisit t0 = Ts
-
+% Filtrage de reception du signal avec bruit
+y_bruit_NRZ_recept = filter(h_NRZ_adapte,1,y_bruit_NRZ);
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -134,6 +135,39 @@ y_CRRC_bruit_filt = y_CRRC_bruit_filt(Ns_CRRC*Ts+1:end);
 %%%%%%%%%%%%%%%%%%%%%%
 %       NRZ          %
 %%%%%%%%%%%%%%%%%%%%%%
+% TEB simulé
+TEB_NRZ = [];
+for i = 1:length(Eb_N0)
+    p_NRZ = 10^(Eb_N0(i)/10);
+    puissance_NRZ = mean(abs(y_NRZ).^2);
+    var_bruit = (puissance_NRZ * Ns_NRZ) / (2 * log2(M) * p_NRZ);
+    bruit = sqrt(var_bruit) * randn(1,length(y_NRZ));
+    y_NRZ_bruit = y_NRZ + bruit;
+    
+    %filtrage de reception du signal avec bruit
+    h_NRZ_adapte = h_NRZ;
+    y_NRZ_bruit_filt = filter(h_NRZ, 1, y_NRZ_bruit);
+    
+    %Echantillonnage
+    y_NRZ_bruit_filt_ech = y_NRZ_bruit_filt(1:Ts:end);
+    %Détecteur à seuil & Demapping
+    y_NRZ_recu = (y_NRZ_bruit_filt_ech > 0)*1.0;
+
+    %TEB
+    TEB_NRZ(i) = length(find(abs(bits_NRZ - y_NRZ_recu))) / length(bits_NRZ);
+end
+
+%Tracé TEB théorique 
+TEB_theorique = qfunc(sqrt(2*10.^(Eb_N0./10)));
+
+%Comparaison TEB
+figure();
+semilogy(Eb_N0, TEB_NRZ); hold on
+semilogy(Eb_N0, TEB_theorique); grid on
+title("TEB theorique VS TEB simulé signal NRZ");
+legend("TEB simulé", "TEB théorique");
+ylabel("TEB");
+xlabel("Eb/N0 (dB)");
 
 
 
