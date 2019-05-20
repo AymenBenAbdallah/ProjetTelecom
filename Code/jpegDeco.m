@@ -11,7 +11,7 @@ q = [ 16 11 10 16 24 40 51 61;
      49 64 78 87 103 121 120 101;
      72 92 95 98 112 100 103 99];
 
-%On receptionne huffMsg et matRepet et dict
+%On receptionne huffMsg et dict
 
 %Decoder image huffman
 tripleDeco = huffmandeco(huffMsg,dict);
