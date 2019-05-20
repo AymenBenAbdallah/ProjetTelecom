@@ -5,7 +5,7 @@ close all;
 %%CODAGE
 
 %Lecture image (RVB)
-image = imread('baboon.png');
+image = imread('barbara.png');
 %En noir et blanc
 image = rgb2gray(image);
 
